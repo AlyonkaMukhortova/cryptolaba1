@@ -30,7 +30,7 @@ char* bintohex(char* bin){
 		int n = (unsigned char)strtol(num, NULL, 2);
 		//printf("%d\n", n);
 		if(n == 0 && ind == 0){
-			printf("Zero first\n");
+			//printf("Zero first\n");
 			lenhex--;
 			hex = (char*)realloc(hex,lenhex + 1);
 			hex[lenhex] = '\0';

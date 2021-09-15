@@ -38,12 +38,13 @@ char* fgetstr(FILE* fd)
 	return ptr;
 }
 
-int load(char* fname)
+int load(char* fname, char* output_file)
 {
 	FILE* fd;
 	int t = 0;
 	fd = fopen(fname, "r");
-
+	FILE* ptr;
+	ptr = fopen(output_file, "w");
 	if (fd == NULL)
 		return 0;
 	while (t != EOF) {
@@ -52,21 +53,30 @@ int load(char* fname)
 		if (*str == '\0')
 			break;
 		str[strlen(str)] = '\0';
-		char * mask;
-		mask = mask_fun(str);
-    printf("PASSWORD:\n%s\n\n", str);
-		printf("MASK:\n%s\n\n",mask);
-		char* hex = bintohex(mask);
-		printf("MASK IN HEXADECIMAL:\n%s\n\n", hex);
-		free(str);
-		free(hex);
-		hex=NULL;
-		str = NULL;
-		free(mask);
-		mask = NULL;
+		if(strlen(str) > 64){
+			char * mask;
+			mask = mask_fun(str);
+			char* hex = bintohex(mask);
+			printf("CAN'T GENERATE (LEN > 64). WRONG INPUT\n");
+			printf("%ld_%s\n", strlen(str), hex);
+			free(str);
+			free(hex);
+			hex=NULL;
+			str = NULL;
+			free(mask);
+			mask = NULL;
+		}
+		else{
+			unsigned long long int_mask = int_mask_fun(str);
+			printf("%ld_%llX\n", strlen(str), int_mask);
+			all_passwords(int_mask, strlen(str), ptr);
+			free(str);
+			str = NULL;
+		}
 		if (t > 0)
 			t++;
 	}
+	fclose(ptr);
 	fclose(fd);
 	return 0;
 }
@@ -102,9 +112,11 @@ char* getstr()
 
 
 
-int main() {
-	printf("Enter file name --> ");
-	char* file_name = getstr();
-	load(file_name);
-	free(file_name);
+int main(int argc, char** argv) {
+	//printf("Enter file name --> ");
+	//char* file_name = getstr();
+	char* file_name = argv[1];
+	char* output_file = argv[2];
+	load(file_name, output_file);
+	//free(file_name);
 }
