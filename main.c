@@ -113,10 +113,20 @@ char* getstr()
 
 
 int main(int argc, char** argv) {
-	//printf("Enter file name --> ");
-	//char* file_name = getstr();
-	char* file_name = argv[1];
-	char* output_file = argv[2];
+	char* file_name;
+	if (argv[1] == NULL){
+		printf("Enter input file name --> ");
+		file_name = getstr();
+	}
+	else
+		file_name = argv[1];
+	char* output_file;
+	if (argv[2] == NULL){
+		printf("Enter output file name --> ");
+		output_file = getstr();
+	}
+	else
+		output_file = argv[2];
 	load(file_name, output_file);
 	//free(file_name);
 }
