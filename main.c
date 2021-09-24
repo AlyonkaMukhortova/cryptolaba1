@@ -133,5 +133,10 @@ int main(int argc, char** argv) {
 	else
 		output_file = argv[2];
 	load(file_name, output_file);
-	//free(file_name);
+	if (argv[1] == NULL){
+		free(file_name);
+	}
+	if (argv[2] == NULL){
+		free(output_file);
+	}
 }
