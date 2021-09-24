@@ -70,6 +70,7 @@ unsigned long long int_mask_fun(char* str){
 		if (format == NULL)
 			break;
 	}
+	s++;
 	format = find_format(str, format_str1, format_str2, &ind);
 	if (format != NULL) {
 		printf("CAN'T GENERATE (MORE THAN 1 PASSWORD). WRONG INPUT\n");
@@ -201,7 +202,7 @@ void all_passwords(unsigned long long mask, long int size, FILE* fd){
 		}
 		mask = mask >> 1;
 	}
-	if(k == 3){
+	if(k == 11){
 		format = "8";
 	}
 	else{

@@ -40,6 +40,7 @@ char* fgetstr(FILE* fd)
 
 int load(char* fname, char* output_file)
 {
+
 	FILE* fd;
 	int t = 0;
 	fd = fopen(fname, "r");
@@ -53,6 +54,7 @@ int load(char* fname, char* output_file)
 		if (*str == '\0')
 			break;
 		str[strlen(str)] = '\0';
+		char* first = str;
 		if(strlen(str) > 64){
 			char * mask;
 			mask = mask_fun(str);
@@ -67,11 +69,14 @@ int load(char* fname, char* output_file)
 			mask = NULL;
 		}
 		else{
-			unsigned long long int_mask = int_mask_fun(str);
-			printf("%ld_%llX\n", strlen(str), int_mask);
-			all_passwords(int_mask, strlen(str), ptr);
-			free(str);
-			str = NULL;
+			while(*str != '\0'){
+				unsigned long long int_mask = int_mask_fun(str);
+				printf("%ld_%llX\n", strlen(str), int_mask);
+				all_passwords(int_mask, strlen(first), ptr);
+				str++;
+			}
+			free(first);
+			first = NULL;
 		}
 		if (t > 0)
 			t++;
